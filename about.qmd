@@ -2,4 +2,4 @@
 title: "About"
 ---
 
-Hello my name is Rachel Ramos. I am from Santa Maria, California. Currently, I am a fourth year student at California State University, Monterey Bay majoring in Marine Science.
+Hello my name is Rachel Ramos and I am from Santa Maria, California. Currently, I am a fourth year student at California State University, Monterey Bay majoring in Marine Science.
