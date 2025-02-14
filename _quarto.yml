@@ -3,12 +3,13 @@ project:
   output-dir: docs
 
 website:
-  title: "rachel-ramos-portfolio"
+  title: "Your Name's ePortfolio"
   navbar:
     left:
       - href: index.qmd
-        text: Home
-      - about.qmd
+        text: "Home"
+      - href: about.qmd
+        text: "About Me"
 
 format:
   html:
@@ -17,4 +18,3 @@ format:
     toc: true
 
 editor: visual
-
