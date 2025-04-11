@@ -1,0 +1,69 @@
+---
+title: "Week11Portfolio"
+author: "Rachel Ramos"
+---
+
+1.  Data Description
+
+    1.  Identify your data source.
+
+    <https://www.kaggle.com/datasets/prashant111/the-simpsons-dataset?resource=download>
+
+2.  Describe your data, including variables and data types.
+
+    simpsons_characters.csv: Metadata on characters appearing in the series. Contains name of character (name), gender, and normalized name
+
+    simpsons_episodes.csv: Episode level metadata. Contains rating, votes, number of seasons, season and title.
+
+    simpsons_locations.csv: Contains information about the locations referenced. (name and normalized name)
+
+    simpsons_script_lines.csv: Contains individual lines spoken on the shoe, word count, and timestamp.
+
+3.  Identify the research questions you want to answer.
+
+    "How does the number of lines spoken by the top 5 characters change across seasons?"
+
+<!-- -->
+
+2.  Data Visualization
+
+<!-- -->
+
+1.  What do you want your final visualizations to look like?
+
+    I want to create a **line chart** that shows the number of lines spoken by each of the top five characters across all seasons. Each character will be represented by a separate colored line, and the x-axis will show the season number, while the y-axis will show the line count.
+
+2.  What do you want to highlight on your final visualizations in order to answer your research questions? How do you plan to do that?
+
+    goal: Highlight how dialogue distribution changes over time for each major character.
+
+    Emphasize peaks and dips in each character’s dialogue across seasons.
+
+    Show when a character becomes more or less prominent.
+
+    Use color-coded lines and clear labels to make comparisons easy.
+
+3.  What is missing from your data or would need to change in your data to create these visualizations?
+
+    Most data is present.
+
+<!-- -->
+
+3.  Data Cleaning
+    1.  Do you need to reformat any variables into different types (e.g. factors, time, dates, strings)? Or remove information from variable values? YES
+
+    2.  Do you need to deal with any missing data, especially missing data coded other than NA? YES
+
+    3.  Do you need to filter your data? How? Yes, only include top 5 characters
+
+    4.  Do you need to create any new variables? What variables? How? No
+
+    5.  Do you need to add new data (join) to your data? What data? How? No
+
+    6.  Are there any variables you can exclude from your data? timestamp_in_ms, spoken_words, normalized_text, location_id.
+
+    7.  Do you need pivot your data in any way? Why? How? no
+
+    8.  Do you need to summarize any of the variables? Which ones? How? yes, count() to get line totals per character per season.
+
+    9.  What other aspects of your data need to be “fixed” in order to make your data visualizations? Clean up names like Homer simpson and homer
