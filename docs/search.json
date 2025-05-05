@@ -4,7 +4,7 @@
     "href": "about.html",
     "title": "About",
     "section": "",
-    "text": "Hello my name is Rachel Ramos. I am from Santa Maria, California. Currently, I am a fourth year student at California State University, Monterey Bay majoring in Marine Science."
+    "text": "Hello my name is Rachel Ramos and I am from Santa Maria, California. Currently, I am a fourth year student at California State University, Monterey Bay majoring in Marine Science."
   },
   {
     "objectID": "index.html",
@@ -12,5 +12,33 @@
     "title": "Rachel Ramos",
     "section": "",
     "text": "Rachel Ramos is a student at\n[California State University, Monterey Bay]\n##Education\nAllan Hancock College | Santa Maria, CA\nA.S. in liberal arts math and sciences\nCalifornia State University, Monterey Bay | Marina, CA\nB.S. in Marine Science | completion by 2025\n##Experience\nMarine Mammal Center | Volunteer | September 2024-Present\nMonterey Bay Aquarium | Volunteer | February 2024-Present"
+  },
+  {
+    "objectID": "Ramos-portfolio.html",
+    "href": "Ramos-portfolio.html",
+    "title": "ramos-portfolio",
+    "section": "",
+    "text": "{r loading in data} characters&lt;-read_csv(“data/simpsons_characters.csv”) episodes&lt;-read_csv(“data/simpsons_episodes.csv”) locations&lt;-read_csv(“data/simpsons_locations.csv”) line&lt;-read_csv(“data/simpsons_script_lines.csv”)\n“How does the number of lines spoken by the top 5 characters change across seasons?”"
+  },
+  {
+    "objectID": "Ramos-portfolio.html#part-1",
+    "href": "Ramos-portfolio.html#part-1",
+    "title": "ramos-portfolio",
+    "section": "",
+    "text": "{r loading in data} characters&lt;-read_csv(“data/simpsons_characters.csv”) episodes&lt;-read_csv(“data/simpsons_episodes.csv”) locations&lt;-read_csv(“data/simpsons_locations.csv”) line&lt;-read_csv(“data/simpsons_script_lines.csv”)\n“How does the number of lines spoken by the top 5 characters change across seasons?”"
+  },
+  {
+    "objectID": "Ramos-portfolio.html#question-1",
+    "href": "Ramos-portfolio.html#question-1",
+    "title": "ramos-portfolio",
+    "section": "Question 1",
+    "text": "Question 1\n#How does the number of lines spoken by the top 5 characters change across seasons? Homer Simpson consistently has the most lines across all seasons, peaking around season 10. Bart, Marge, and Lisa have fewer lines with moderate fluctuations over time. One of the top 5 entries is labeled “NA,” likely due to missing or unlinked character data/ extras. The dialogue remains centered around Homer, with other main characters contributing steadily."
+  },
+  {
+    "objectID": "Ramos-portfolio.html#question-2",
+    "href": "Ramos-portfolio.html#question-2",
+    "title": "ramos-portfolio",
+    "section": "Question 2",
+    "text": "Question 2\n“Which locations are used most frequently in the show, and how has their usage changed across seasons?”\n\nlines_clean &lt;- lines %&gt;%\n  filter(!is.na(location_id))  # remove lines without a known location\n\n\nlines_with_info &lt;- lines_clean %&gt;%\n  left_join(locations %&gt;% select(id, location_name = name), \n            by = c(\"location_id\" = \"id\")) %&gt;%\n  left_join(episodes %&gt;% select(id, season), \n            by = c(\"episode_id\" = \"id\")) %&gt;%\n  filter(!is.na(location_name), !is.na(season))  # Clean incomplete joins\n\n\nlines_with_info &lt;- lines_with_info %&gt;%\n  mutate(\n    season = as.integer(season),\n    location_name = str_trim(location_name)\n  )\n\n\ntop_locations &lt;- lines_with_info %&gt;%\n  count(location_name, sort = TRUE) %&gt;%\n  slice_head(n = 5) %&gt;%\n  pull(location_name)\n\n\nlocation_trends &lt;- lines_with_info %&gt;%\n  filter(location_name %in% top_locations) %&gt;%\n  group_by(season, location_name) %&gt;%\n  summarise(line_count = n(), .groups = \"drop\")\n\n\nggplot(location_trends, aes(x = season, y = line_count, color = location_name)) +\n  geom_line(size = 1.1) +\n  geom_point(size = 2) +\n  labs(\n    title = \"Top 5 Locations by Number of Spoken Lines Across Seasons\",\n    x = \"Season\",\n    y = \"Number of Lines Spoken\",\n    color = \"Location\"\n  ) +\n  theme_minimal()\n\n\n\n\n\n\n\n\n“Which locations are used most frequently in the show, and how has their usage changed across seasons?”\nThe Simpson Home is the most used location, peaking around season 3 and staying central throughout the series. Other locations—like the school, Moe’s Tavern, and the power plant appear far less often, with occasional spikes that reflect shifts in episode focus. Overall, the show remains grounded in the family’s home, with other settings used more episodically."
   }
 ]
