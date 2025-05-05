@@ -1,0 +1,141 @@
+---
+title: "ramos-portfolio"
+author: "Rachel Ramos"
+format: html
+---
+
+## Part 1
+{r loading in data}
+characters<-read_csv("data/simpsons_characters.csv")
+episodes<-read_csv("data/simpsons_episodes.csv")
+locations<-read_csv("data/simpsons_locations.csv")
+line<-read_csv("data/simpsons_script_lines.csv")
+
+
+
+
+"How does the number of lines spoken by the top 5 characters change across seasons?"
+
+
+
+
+# Load required libraries
+
+```{r}
+library(tidyverse)
+```
+
+# Load the data
+```{r loading in data}
+characters<-read_csv("archive/simpsons_characters.csv")
+episodes<-read_csv("archive/simpsons_episodes.csv")
+locations<-read_csv("archive/simpsons_locations.csv")
+lines<-read_csv("archive/simpsons_script_lines.csv")
+
+```
+
+
+# Step 1: Get top 5 characters by number of lines
+```{r}
+top_characters <- lines %>%
+  count(raw_character_text, sort = TRUE) %>%
+  slice_head(n = 5) %>%
+  pull(raw_character_text)
+```
+
+
+```{r Merge lines with episodes to get season info}
+merged <- lines %>%
+  filter(raw_character_text %in% top_characters) %>%
+  left_join(episodes %>% select(id, season), by = c("episode_id" = "id"))
+```
+
+
+```{r  Count lines per season for each top character}
+seasonal_lines <- merged %>%
+  group_by(season, raw_character_text) %>%
+  summarise(line_count = n(), .groups = "drop")
+```
+
+```{r plot}
+ggplot(seasonal_lines, aes(x = season, y = line_count, color = raw_character_text)) +
+  geom_line(size = 1) +
+  labs(
+    title = "Line Count by Top 5 Characters Across Seasons",
+    x = "Season",
+    y = "Number of Lines",
+    color = "Character"
+  ) +
+  theme_minimal()
+```
+
+
+## Question 1
+#How does the number of lines spoken by the top 5 characters change across seasons?
+Homer Simpson consistently has the most lines across all seasons, peaking around season 10. Bart, Marge, and Lisa have fewer lines with moderate fluctuations over time. One of the top 5 entries is labeled "NA," likely due to missing or unlinked character data/ extras. The dialogue remains centered around Homer, with other main characters contributing steadily.
+
+
+
+## Question 2 
+"Which locations are used most frequently in the show, and how has their usage changed across seasons?"
+
+
+```{r Remove missing or unknown location entries}
+lines_clean <- lines %>%
+  filter(!is.na(location_id))  # remove lines without a known location
+
+```
+
+
+```{r Join location and season info}
+lines_with_info <- lines_clean %>%
+  left_join(locations %>% select(id, location_name = name), 
+            by = c("location_id" = "id")) %>%
+  left_join(episodes %>% select(id, season), 
+            by = c("episode_id" = "id")) %>%
+  filter(!is.na(location_name), !is.na(season))  # Clean incomplete joins
+
+```
+
+
+```{r Standardize season and location values}
+lines_with_info <- lines_with_info %>%
+  mutate(
+    season = as.integer(season),
+    location_name = str_trim(location_name)
+  )
+```
+
+
+```{r top 5 locations by number of spoken lines}
+top_locations <- lines_with_info %>%
+  count(location_name, sort = TRUE) %>%
+  slice_head(n = 5) %>%
+  pull(location_name)
+```
+
+
+```{r Filter for only top 5 and count per season}
+location_trends <- lines_with_info %>%
+  filter(location_name %in% top_locations) %>%
+  group_by(season, location_name) %>%
+  summarise(line_count = n(), .groups = "drop")
+```
+
+```{r}
+ggplot(location_trends, aes(x = season, y = line_count, color = location_name)) +
+  geom_line(size = 1.1) +
+  geom_point(size = 2) +
+  labs(
+    title = "Top 5 Locations by Number of Spoken Lines Across Seasons",
+    x = "Season",
+    y = "Number of Lines Spoken",
+    color = "Location"
+  ) +
+  theme_minimal()
+```
+
+"Which locations are used most frequently in the show, and how has their usage changed across seasons?"
+
+The Simpson Home is the most used location, peaking around season 3 and staying central throughout the series. Other locations—like the school, Moe’s Tavern, and the power plant appear far less often, with occasional spikes that reflect shifts in episode focus. Overall, the show remains grounded in the family’s home, with other settings used more episodically.
+
