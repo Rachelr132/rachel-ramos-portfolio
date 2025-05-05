@@ -139,3 +139,7 @@ ggplot(location_trends, aes(x = season, y = line_count, color = location_name)) 
 
 The Simpson Home is the most used location, peaking around season 3 and staying central throughout the series. Other locations—like the school, Moe’s Tavern, and the power plant appear far less often, with occasional spikes that reflect shifts in episode focus. Overall, the show remains grounded in the family’s home, with other settings used more episodically.
 
+
+
+
+
