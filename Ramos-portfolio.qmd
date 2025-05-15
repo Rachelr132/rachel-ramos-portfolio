@@ -30,8 +30,9 @@ line<-read_csv("data/simpsons_script_lines.csv")
 library(tidyverse)
 ```
 
-# Load the data
-```{r loading in data}
+
+```{r}
+#|label: loading in data
 characters<-read_csv("archive/simpsons_characters.csv")
 episodes<-read_csv("archive/simpsons_episodes.csv")
 locations<-read_csv("archive/simpsons_locations.csv")
@@ -40,8 +41,8 @@ lines<-read_csv("archive/simpsons_script_lines.csv")
 ```
 
 
-# Step 1: Get top 5 characters by number of lines
 ```{r}
+#|label: Get top 5 characters by number of lines
 top_characters <- lines %>%
   count(raw_character_text, sort = TRUE) %>%
   slice_head(n = 5) %>%
@@ -49,20 +50,23 @@ top_characters <- lines %>%
 ```
 
 
-```{r Merge lines with episodes to get season info}
+```{r}
+#|label: Merge lines with episodes to get season info
 merged <- lines %>%
   filter(raw_character_text %in% top_characters) %>%
   left_join(episodes %>% select(id, season), by = c("episode_id" = "id"))
 ```
 
 
-```{r  Count lines per season for each top character}
+```{r}
+#|label: Count lines per season for each top character
 seasonal_lines <- merged %>%
   group_by(season, raw_character_text) %>%
   summarise(line_count = n(), .groups = "drop")
 ```
 
-```{r plot}
+```{r}
+#|label: Line plot
 ggplot(seasonal_lines, aes(x = season, y = line_count, color = raw_character_text)) +
   geom_line(size = 1) +
   labs(
@@ -85,14 +89,16 @@ Homer Simpson consistently has the most lines across all seasons, peaking around
 "Which locations are used most frequently in the show, and how has their usage changed across seasons?"
 
 
-```{r Remove missing or unknown location entries}
+```{r}
+#|label: Remove missing or unknown location entries
 lines_clean <- lines %>%
   filter(!is.na(location_id))  # remove lines without a known location
 
 ```
 
 
-```{r Join location and season info}
+```{r}
+#|label: Join location and season info
 lines_with_info <- lines_clean %>%
   left_join(locations %>% select(id, location_name = name), 
             by = c("location_id" = "id")) %>%
@@ -103,7 +109,8 @@ lines_with_info <- lines_clean %>%
 ```
 
 
-```{r Standardize season and location values}
+```{r}
+#|label: Standardize season and location values
 lines_with_info <- lines_with_info %>%
   mutate(
     season = as.integer(season),
@@ -112,7 +119,8 @@ lines_with_info <- lines_with_info %>%
 ```
 
 
-```{r top 5 locations by number of spoken lines}
+```{r}
+#|label: top 5 locations by number of spoken lines
 top_locations <- lines_with_info %>%
   count(location_name, sort = TRUE) %>%
   slice_head(n = 5) %>%
@@ -120,7 +128,8 @@ top_locations <- lines_with_info %>%
 ```
 
 
-```{r Filter for only top 5 and count per season}
+```{r}
+#|label: Filter for only top 5 and count per season
 location_trends <- lines_with_info %>%
   filter(location_name %in% top_locations) %>%
   group_by(season, location_name) %>%
