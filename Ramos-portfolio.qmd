@@ -1,7 +1,12 @@
 ---
-title: "ramos-portfolio"
+title: "Ramos-Portfolio"
 author: "Rachel Ramos"
 format: html
+execute: 
+  echo: false
+  warning: false
+  message: false
+embed-resources: true
 ---
 
 ## Part 1
