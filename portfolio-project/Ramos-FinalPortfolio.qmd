@@ -1,0 +1,172 @@
+---
+title: "Ramos-FinalPortfolio"
+author: "Rachel Ramos"
+format: html
+execute: 
+  echo: false
+  warning: false
+  message: false
+embed-resources: true
+---
+
+```{r}
+#| label: setup
+#| include: false
+library(tidyverse)
+```
+
+## Data Description
+
+The dataset consists of four CSV files containing metadata from The Simpsons series. simpsons_characters.csv includes information about characters, such as their names, gender, and normalized versions of their names for consistency. simpsons_episodes.csv provides episode-level details, including ratings, number of votes, season, total seasons, and episode titles, which are useful for analyzing audience reception over time. simpsons_locations.csv lists locations mentioned in the show, with both original and normalized names to support location-based analysis. simpsons_script_lines.csv captures individual lines spoken in the series, along with word counts and timestamps, enabling analysis of dialogue, character speech, and narrative flow.
+
+https://www.kaggle.com/datasets/prashant111/the-simpsons-dataset?resource=download
+
+## Data Cleaning
+
+The data files containing information on characters, episodes, locations, and individual lines from the show were first loaded.
+
+For the first plot, the five characters with the most spoken lines across the series were identified by counting their total lines. This information was then combined with episode data to determine which season each line belonged to. The number of lines spoken by each of the top five characters was then counted for each season.
+
+For the second plot, lines without a known location were removed to clean the data. Location and season details were then added for each remaining line. Any entries still missing this information were filtered out. The names of locations were cleaned up, and season numbers were standardized. The five most frequently mentioned locations were identified based on the number of spoken lines. Finally, the number of lines spoken in each season at those top five locations was counted to observe trends over time.
+
+```{r}
+#| label: data-cleaning
+#| eval: false
+```
+
+```{r}
+#|label: loading in package
+library(tidyverse)
+
+```
+
+```{r}
+#|label: loading in data
+characters<-read_csv("data/old/simpsons_characters.csv")
+episodes<-read_csv("data/old/simpsons_episodes.csv")
+locations<-read_csv("data/old/simpsons_locations.csv")
+lines<-read_csv("data/old/simpsons_script_lines.csv")
+
+```
+
+```{r}
+#|label: Get top 5 characters by number of lines
+top_characters <- lines %>%
+  count(raw_character_text, sort = TRUE) %>%
+  slice_head(n = 5) %>%
+  pull(raw_character_text)
+```
+
+```{r}
+#|label: Merge lines with episodes to get season info
+merged <- lines %>%
+  filter(raw_character_text %in% top_characters) %>%
+  left_join(episodes %>% select(id, season), by = c("episode_id" = "id"))
+```
+
+```{r}
+#|label: Count lines per season for each top character
+seasonal_lines <- merged %>%
+  group_by(season, raw_character_text) %>%
+  summarise(line_count = n(), .groups = "drop")
+```
+
+```{r}
+#|label: Remove missing or unknown location entries
+lines_clean <- lines %>%
+  filter(!is.na(location_id))  # remove lines without a known location
+
+```
+
+```{r}
+#|label: Join location and season info
+lines_with_info <- lines_clean %>%
+  left_join(locations %>% select(id, location_name = name), 
+            by = c("location_id" = "id")) %>%
+  left_join(episodes %>% select(id, season), 
+            by = c("episode_id" = "id")) %>%
+  filter(!is.na(location_name), !is.na(season))  # Clean incomplete joins
+
+```
+
+```{r}
+#|label: Standardize season and location values
+lines_with_info <- lines_with_info %>%
+  mutate(
+    season = as.integer(season),
+    location_name = str_trim(location_name)
+  )
+```
+
+```{r}
+#|label: top 5 locations by number of spoken lines
+top_locations <- lines_with_info %>%
+  count(location_name, sort = TRUE) %>%
+  slice_head(n = 5) %>%
+  pull(location_name)
+```
+
+```{r}
+#|label: Filter for only top 5 and count per season
+location_trends <- lines_with_info %>%
+  filter(location_name %in% top_locations) %>%
+  group_by(season, location_name) %>%
+  summarise(line_count = n(), .groups = "drop")
+```
+
+## Visualzation 1
+
+This graph shows how often the top five speaking characters in The Simpsons spoke across different seasons. Homer Simpson had the highest number of spoken lines in nearly every season, with his peak around season 10. The other characters—Bart, Lisa, Marge, and an unnamed character—had fewer lines, and their trends remained relatively steady over time. The chart highlights how Homer consistently played the most vocal role throughout the series.
+
+```{r}
+#| label: read-data
+#read in your clean data here
+write_csv(seasonal_lines, "data/clean/clean-seasonal-lines.csv")
+
+write_csv(location_trends, "data/clean/clean-location-trends.csv")
+```
+
+```{r}
+
+#| label: viz-1
+#| fig-cap: "Line counts for the top 5 speaking characters in The Simpsons across all seasons"
+#| fig-alt: "A line graph titled “Line Count by Top 5 Characters Across Seasons.” The x-axis shows the season number from 1 to about 30, and the y-axis shows the number of lines spoken, ranging from 0 to just over 1700. Five lines represent different characters. Homer Simpson, shown in green, has the highest number of lines in almost every season, peaking around season 10 and then gradually declining. Bart Simpson (red), Lisa Simpson (cyan), and Marge Simpson (purple) have consistently lower line counts that remain relatively stable. A gray line labeled 'NA' represents lines with no clear character name, with counts similar to or higher than the three supporting characters."
+#| fig-width: 6
+#| fig-height: 4
+#| fig-align: center
+
+ggplot(seasonal_lines, aes(x = season, y = line_count, color = raw_character_text)) +
+  geom_line(size = 1) +
+  labs(
+    title = "Line Count by Top 5 Characters Across Seasons",
+    x = "Season",
+    y = "Number of Lines",
+    color = "Character"
+  ) +
+  theme_minimal()
+```
+
+## Visualization 2
+
+This graph shows how often lines were spoken in the five most common locations in The Simpsons across different seasons. The Simpson home stands out by far as the most frequent setting for dialogue, with a sharp peak around season 3 and generally high usage over the years. Other popular locations like Springfield Elementary School, Moe's Tavern, the Nuclear Power Plant, and the Kwik-E-Mart show much lower and relatively stable line counts. This highlights how central the family home is to the show’s dialogue and storytelling.
+
+
+```{r}
+#| label: viz-2
+#| fig-cap: "Line counts for the top 5 speaking characters in The Simpsons across all seasons."
+#| fig-alt: "A line graph titled “Top 5 Locations by Number of Spoken Lines Across Seasons.” The x-axis shows the season number from 1 to about 30, and the y-axis shows the number of lines spoken, ranging from 0 to 2500. The Simpson home, shown in green, has the highest number of spoken lines in nearly every season, peaking around season 3. The other locations—Springfield Elementary School (blue), Moe’s Tavern (olive), the Springfield Nuclear Power Plant (pink), and the Kwik-E-Mart (red)—have much lower counts that remain fairly steady across seasons, typically under 500 lines per season."
+#| fig-width: 6
+#| fig-height: 4
+#| fig-align: center
+
+ggplot(location_trends, aes(x = season, y = line_count, color = location_name)) +
+  geom_line(size = 1.1) +
+  geom_point(size = 2) +
+  labs(
+    title = "Top 5 Locations by Number of Spoken Lines Across Seasons",
+    x = "Season",
+    y = "Number of Lines Spoken",
+    color = "Location"
+  ) +
+  theme_minimal()
+```

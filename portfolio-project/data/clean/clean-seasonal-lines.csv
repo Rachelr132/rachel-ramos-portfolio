@@ -1,0 +1,131 @@
+season,raw_character_text,line_count
+1,Bart Simpson,671
+1,Homer Simpson,848
+1,Lisa Simpson,277
+1,Marge Simpson,453
+1,NA,447
+2,Bart Simpson,771
+2,Homer Simpson,1467
+2,Lisa Simpson,432
+2,Marge Simpson,707
+2,NA,641
+3,Bart Simpson,771
+3,Homer Simpson,1418
+3,Lisa Simpson,410
+3,Marge Simpson,576
+3,NA,841
+4,Bart Simpson,577
+4,Homer Simpson,1143
+4,Lisa Simpson,396
+4,Marge Simpson,536
+4,NA,800
+5,Bart Simpson,547
+5,Homer Simpson,1231
+5,Lisa Simpson,318
+5,Marge Simpson,416
+5,NA,779
+6,Bart Simpson,716
+6,Homer Simpson,1096
+6,Lisa Simpson,585
+6,Marge Simpson,663
+6,NA,862
+7,Bart Simpson,638
+7,Homer Simpson,971
+7,Lisa Simpson,557
+7,Marge Simpson,447
+7,NA,698
+8,Bart Simpson,588
+8,Homer Simpson,1098
+8,Lisa Simpson,515
+8,Marge Simpson,558
+8,NA,624
+9,Bart Simpson,670
+9,Homer Simpson,1501
+9,Lisa Simpson,567
+9,Marge Simpson,671
+9,NA,676
+10,Bart Simpson,499
+10,Homer Simpson,1709
+10,Lisa Simpson,562
+10,Marge Simpson,648
+10,NA,623
+11,Bart Simpson,602
+11,Homer Simpson,1535
+11,Lisa Simpson,488
+11,Marge Simpson,593
+11,NA,656
+12,Bart Simpson,451
+12,Homer Simpson,1329
+12,Lisa Simpson,464
+12,Marge Simpson,453
+12,NA,674
+13,Bart Simpson,440
+13,Homer Simpson,1264
+13,Lisa Simpson,443
+13,Marge Simpson,633
+13,NA,689
+14,Bart Simpson,433
+14,Homer Simpson,1278
+14,Lisa Simpson,446
+14,Marge Simpson,586
+14,NA,753
+15,Bart Simpson,496
+15,Homer Simpson,1112
+15,Lisa Simpson,521
+15,Marge Simpson,578
+15,NA,767
+16,Bart Simpson,421
+16,Homer Simpson,1114
+16,Lisa Simpson,395
+16,Marge Simpson,608
+16,NA,655
+17,Bart Simpson,372
+17,Homer Simpson,1013
+17,Lisa Simpson,425
+17,Marge Simpson,666
+17,NA,698
+18,Bart Simpson,478
+18,Homer Simpson,968
+18,Lisa Simpson,406
+18,Marge Simpson,519
+18,NA,680
+19,Bart Simpson,443
+19,Homer Simpson,950
+19,Lisa Simpson,397
+19,Marge Simpson,442
+19,NA,645
+20,Bart Simpson,397
+20,Homer Simpson,1000
+20,Lisa Simpson,475
+20,Marge Simpson,476
+20,NA,594
+21,Bart Simpson,606
+21,Homer Simpson,893
+21,Lisa Simpson,420
+21,Marge Simpson,463
+21,NA,703
+22,Bart Simpson,523
+22,Homer Simpson,890
+22,Lisa Simpson,536
+22,Marge Simpson,463
+22,NA,650
+23,Bart Simpson,473
+23,Homer Simpson,1109
+23,Lisa Simpson,385
+23,Marge Simpson,455
+23,NA,608
+24,Bart Simpson,455
+24,Homer Simpson,1118
+24,Lisa Simpson,394
+24,Marge Simpson,649
+24,NA,666
+25,Bart Simpson,465
+25,Homer Simpson,955
+25,Lisa Simpson,464
+25,Marge Simpson,512
+25,NA,600
+26,Bart Simpson,274
+26,Homer Simpson,832
+26,Lisa Simpson,224
+26,Marge Simpson,388
+26,NA,493
